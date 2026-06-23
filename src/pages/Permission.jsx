@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   MapPin,
   Bell,
@@ -43,7 +44,7 @@ const permissionsData = [
 
 export default function Permission() {
   const [mounted, setMounted] = useState(false);
-
+const navigate = useNavigate();
   const [toggle, setToggle] = useState({
     gps: true,
     sms: true,
@@ -117,11 +118,29 @@ export default function Permission() {
 
         {/* FOOTER */}
         <div className="mt-auto px-5 pb-6 pt-4 relative z-10">
-          <button className="w-full h-12 rounded-full bg-[#0A3D91] text-white font-semibold">
-            Setujui Semua
-          </button>
+          <button
+              onClick={() => {
+                setToggle({
+                  gps: true,
+                  sms: true,
+                  notif: true,
+                  camera: true,
+                  mic: true
+                });
 
-          <button className="w-full mt-3 text-sm text-slate-500">
+                setTimeout(() => {
+    navigate("/dashboard");
+  }, 500); // 👈 delay 0.5 detik
+}}
+              className="w-full h-12 rounded-full bg-[#0A3D91] text-white font-semibold"
+            >
+              Setujui Semua
+            </button>
+
+          <button
+            onClick={() => navigate("/dashboard")}
+            className="w-full mt-3 text-sm text-slate-500"
+          >
             Atur Nanti
           </button>
         </div>
