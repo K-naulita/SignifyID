@@ -1,0 +1,32 @@
+import express from "express";
+import twilio from "twilio";
+import cors from "cors";
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+const client = twilio(
+  "YOUR_TWILIO_SID",
+  "YOUR_TWILIO_AUTH_TOKEN"
+);
+
+app.post("/send-sms", async (req, res) => {
+  const { phone, message } = req.body;
+
+  try {
+    const result = await client.messages.create({
+      body: message,
+      from: "YOUR_TWILIO_NUMBER",
+      to: phone,
+    });
+
+    res.json({ success: true, result });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.listen(3001, () => {
+  console.log("Twilio server running on port 3001");
+});
