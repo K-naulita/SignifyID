@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignifyID - Transcribe Me</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f3f4f6;
+        }
+        
+        @keyframes pulse-light {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+        }
+        .mic-active {
+            animation: pulse-light 2s infinite;
+        }
+    </style>
+</head>
+<body class="flex justify-center items-center min-h-screen">
+
+    <div class="w-[390px] h-[844px] bg-white rounded-[40px] shadow-2xl overflow-hidden flex flex-col relative border-8 border-gray-800">
+        
+        <div class="px-5 pt-6 pb-3 flex items-center justify-between bg-white border-b border-gray-100">
+            <button class="text-gray-700 text-lg hover:opacity-70">
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <div class="flex items-center gap-2">
+                <div class="w-15 h-15 rounded-full overflow-hidden">
+                    <img src="public/logo.png" alt="Logo" class="w-full h-full object-contain">
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="bg-green-100 text-green-600 text-[11px] font-semibold px-2.5 py-1 rounded-full flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span> Online
+                </span>
+                <div class="w-8 h-8 bg-gray-200 rounded-full overflow-hidden border border-gray-300">
+                    <img src="public/profil.png" alt="Profile" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto px-5 pt-4 pb-24 flex flex-col items-center relative">
+            
+            <div class="w-full flex justify-end px-4 mb-1">
+                <div id="status-bubble" class="bg-white border border-amber-100 text-blue-950 text-xs py-2 px-4 rounded-2xl rounded-tr-none shadow-sm font-medium transition-all max-w-[180px]">
+                    Saya mendengarkan...
+                </div>
+            </div>
+
+            <div class="w-48 h-48 my-1 flex items-center justify-center relative">
+                <img id="maskot-img" src="public/dengar.png" alt="Maskot Isyarat" class="w-full h-full object-contain transition-all duration-300">
+            </div>
+
+            <div class="w-full mt-4 bg-white border-2 border-gray-100 border-l-[6px] border-l-amber-400 rounded-2xl p-4 shadow-sm min-h-[120px] flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-bold text-blue-950">Transkripsi Suara</span>
+                        <span id="word-counter" class="text-xs text-gray-400">0/50 kata</span>
+                    </div>
+                    <p id="transcription-text" class="text-sm text-gray-400 italic font-medium leading-relaxed">
+                        Mulai merekam...
+                    </p>
+                </div>
+            </div>
+
+            <div class="w-full mt-8 flex justify-center items-center gap-6">
+                <div class="flex flex-col items-center gap-1.5">
+                    <button id="btn-ulangi" class="w-16 h-16 bg-amber-100 text-blue-950 rounded-full flex items-center justify-center text-xl shadow-inner active:scale-95 transition-all">
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </button>
+                    <span class="text-xs font-semibold text-gray-600">Ulangi</span>
+                </div>
+
+                <div class="flex flex-col items-center">
+                    <button id="btn-mic" class="w-24 h-24 bg-amber-200 text-blue-950 rounded-full flex items-center justify-center text-3xl shadow-md active:scale-95 transition-all mic-active">
+                        <i id="mic-icon" class="fa-solid fa-microphone"></i>
+                    </button>
+                </div>
+
+                <div class="flex flex-col items-center gap-1.5">
+                    <button class="w-16 h-16 bg-amber-100 text-blue-950 rounded-full flex items-center justify-center text-sm font-bold shadow-inner relative">
+                        <span>1.0x</span>
+                    </button>
+                    <span class="text-xs font-semibold text-gray-600">Kecepatan</span>
+                </div>
+            </div>
+
+            <div class="w-full mt-8 flex justify-center">
+                <button id="btn-action" class="bg-blue-950 hover:bg-blue-900 text-white font-bold text-xs tracking-wider py-3.5 px-10 rounded-full shadow-md transition-all uppercase active:scale-98">
+                    Mulai Berbicara
+                </button>
+            </div>
+
+        </div>
+
+        <div class="absolute bottom-0 left-0 right-0 h-18 bg-white border-t border-gray-100 px-4 py-2 flex justify-between items-center z-10">
+            <button class="flex flex-col items-center justify-center flex-1 text-blue-600 transition-all">
+                <div class="bg-blue-50 px-5 py-1 rounded-full flex flex-col items-center justify-center">
+                    <i class="fa-solid fa-house text-lg mb-0.5"></i>
+                    <span class="text-[10px] font-bold">Beranda</span>
+                </div>
+            </button>
+            <button class="flex flex-col items-center justify-center flex-1 text-gray-400 hover:text-blue-600 transition-all">
+                <i class="fa-solid fa-language text-lg mb-0.5"></i>
+                <span class="text-[10px] font-medium">Terjemah</span>
+            </button>
+            <button class="flex flex-col items-center justify-center flex-1 text-gray-400 hover:text-blue-600 transition-all">
+                <i class="fa-solid fa-book-open text-lg mb-0.5"></i>
+                <span class="text-[10px] font-medium">Kamus</span>
+            </button>
+            <button class="flex flex-col items-center justify-center flex-1 text-gray-400 hover:text-blue-600 transition-all">
+                <i class="fa-solid fa-asterisk text-lg mb-0.5"></i>
+                <span class="text-[10px] font-medium">Darurat</span>
+            </button>
+            <button class="flex flex-col items-center justify-center flex-1 text-gray-400 hover:text-blue-600 transition-all">
+                <i class="fa-solid fa-user text-lg mb-0.5"></i>
+                <span class="text-[10px] font-medium">Profil</span>
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        const btnAction = document.getElementById('btn-action');
+        const btnMic = document.getElementById('btn-mic');
+        const micIcon = document.getElementById('mic-icon');
+        const statusBubble = document.getElementById('status-bubble');
+        const maskotImg = document.getElementById('maskot-img');
+        const transcriptionText = document.getElementById('transcription-text');
+        const wordCounter = document.getElementById('word-counter');
+        const btnUlangi = document.getElementById('btn-ulangi');
+
+        let isFinished = false;
+
+        function toggleState() {
+            if (!isFinished) {
+                isFinished = true;
+                
+                btnAction.textContent = "Selesai Berbicara";
+                btnMic.classList.remove('bg-amber-200', 'mic-active');
+                btnMic.classList.add('bg-amber-400');
+                
+                statusBubble.textContent = "Halo";
+                
+                maskotImg.src = "public/halo.png"; 
+                
+                transcriptionText.innerHTML = `"Halo, bagaimana kabar Anda hari ini?"`;
+                transcriptionText.classList.remove('text-gray-400', 'italic');
+                transcriptionText.classList.add('text-blue-950', 'not-italic');
+                wordCounter.textContent = "6/50 kata";
+                
+            } else {
+                isFinished = false;
+                
+                btnAction.textContent = "Mulai Berbicara";
+                btnMic.classList.remove('bg-amber-400');
+                btnMic.classList.add('bg-amber-200', 'mic-active');
+                
+                statusBubble.textContent = "Saya mendengarkan...";
+                maskotImg.src = "public/dengar.png";
+                
+                transcriptionText.textContent = "Mulai merekam...";
+                transcriptionText.classList.remove('text-blue-950', 'not-italic');
+                transcriptionText.classList.add('text-gray-400', 'italic');
+                wordCounter.textContent = "0/50 kata";
+            }
+        }
+
+        btnAction.addEventListener('click', toggleState);
+        btnMic.addEventListener('click', toggleState);
+
+        btnUlangi.addEventListener('click', () => {
+            maskotImg.style.opacity = '0.5';
+            setTimeout(() => { maskotImg.style.opacity = '1'; }, 150);
+        });
+    </script>
+</body>
+</html>
