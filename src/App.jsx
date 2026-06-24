@@ -9,6 +9,10 @@ import Profile from "./pages/Profile";
 import TermsOfService from "./pages/terms";
 import Transcribe from "./pages/TranscribeMe";
 import Translate from "./pages/TranslateMe";
+import Dictionary from "./pages/Dictionary";
+import DictionarySearch from "./pages/DictionarySearch";
+import DictionaryCategory from "./pages/DictionaryCategory";
+import DictionaryDetail from "./pages/DictionaryDetail";
 
 
 function App() {
@@ -48,7 +52,10 @@ function App() {
 
         <Route path="/transcribe" element={<Transcribe />} />
         <Route path="/translate" element={<Translate />} />
-
+        <Route path="/dictionary" element={<Dictionary />} />
+        <Route path="/dictionary/search" element={<DictionarySearch />} />
+        <Route path="/dictionary/category/:categoryId" element={<DictionaryCategory />} />
+        <Route path="/dictionary/word/:wordId" element={<DictionaryDetail />} />
       </Routes>
 
     </BrowserRouter>
