@@ -7,6 +7,8 @@ import Dashboard from "./pages/Dashboard";
 import EmergencyPage from "./pages/Emergency";
 import Profile from "./pages/Profile";
 import TermsOfService from "./pages/terms";
+import Transcribe from "./pages/TranscribeMe";
+import Translate from "./pages/TranslateMe";
 
 
 function App() {
@@ -43,6 +45,9 @@ function App() {
         />
         {/* TERMS */}
         <Route path="/terms" element={<TermsOfService />} />
+
+        <Route path="/transcribe" element={<Transcribe />} />
+        <Route path="/translate" element={<Translate />} />
 
       </Routes>
 

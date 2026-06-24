@@ -12,10 +12,12 @@ import BottomNav from "../components/BottomNav";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { supabase } from "../supabaseClient";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Dashboard() {
 const [name, setName] = useState("User");
+const navigate = useNavigate();
 useEffect(() => {
   const getUser = async () => {
     const { data: userData } = await supabase.auth.getUser();
@@ -135,26 +137,29 @@ gap-3
 
 
 <MenuCard
-icon={<Languages/>}
-label="Translate Me"
+  icon={<Languages />}
+  label="Translate Me"
+  onClick={() => navigate("/translate")}
+/>
+
+<MenuCard
+  icon={<Mic />}
+  label="Transcribe Me"
+  onClick={() => navigate("/transcribe")}
 />
 
 
 <MenuCard
-icon={<Mic/>}
-label="Transcribe Me"
+  icon={<GraduationCap />}
+  label="Learn Me"
+  onClick={() => navigate("/learn")}
 />
 
 
 <MenuCard
-icon={<GraduationCap/>}
-label="Learn Me"
-/>
-
-
-<MenuCard
-icon={<Gamepad2/>}
-label="Play Me"
+  icon={<Gamepad2 />}
+  label="Play Me"
+  onClick={() => navigate("/play")}
 />
 
 
@@ -405,49 +410,42 @@ desc="Ikuti pelatihan bahasa isyarat dasar bersama komunitas"
 
 
 
-function MenuCard({icon,label}){
+function MenuCard({ icon, label, onClick }) {
+  return (
+    <div
+      onClick={onClick}
+      className="
+        bg-white
+        rounded-2xl
+        h-[85px]
+        shadow-sm
+        flex
+        flex-col
+        items-center
+        justify-center
+        gap-2
+        active:scale-95
+        cursor-pointer
+      "
+    >
+      <div className="
+        w-11
+        h-11
+        rounded-full
+        bg-blue-100
+        flex
+        items-center
+        justify-center
+        text-blue-600
+      ">
+        {icon}
+      </div>
 
-return (
-
-<div className="
-bg-white
-rounded-2xl
-h-[85px]
-shadow-sm
-flex
-flex-col
-items-center
-justify-center
-gap-2
-active:scale-95
-">
-
-
-<div className="
-w-11
-h-11
-rounded-full
-bg-blue-100
-flex
-items-center
-justify-center
-text-blue-600
-">
-
-{icon}
-
-</div>
-
-
-<p className="text-xs font-medium">
-{label}
-</p>
-
-
-</div>
-
-)
-
+      <p className="text-xs font-medium">
+        {label}
+      </p>
+    </div>
+  );
 }
 
 
